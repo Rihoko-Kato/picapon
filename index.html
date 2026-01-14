@@ -42,8 +42,7 @@
             <div class="concept-layout">
                 <div class="concept-text">
                     <p class="lead-text">
-                        ぴかぽんは、別の星からやってきた！
-                        人間の「さみしさ」が生まれる場所に現れます。
+                        ぴかぽんは、別の星からやってきた！人間の「さみしさ」が生まれる場所に現れます。<br>
                         地球では、玄関がその場所でした。
                     </p>
                     <p>
@@ -64,13 +63,31 @@
             <h2>提供する価値</h2>
             <div class="feature-grid">
                 <div class="feature-item">
-                    <div class="circle">寂しさの<br>軽減</div>
+                    <div class="circle">
+                        <span class="circle-title">寂しさの<br>軽減</span>
+                        <p class="detail-text">
+                            誰もいない家に帰る虚しさがなくなります。<br>
+                            「おかえり」の温かさを。
+                        </p>
+                    </div>
                 </div>
                 <div class="feature-item">
-                    <div class="circle">生活の<br>区切りをつける</div>
+                    <div class="circle">
+                        <span class="circle-title">生活の<br>区切りをつける</span>
+                        <p class="detail-text">
+                            「行ってきます」で気持ちを切り替え、<br>
+                            「ただいま」でホッと一息つく。
+                        </p>
+                    </div>
                 </div>
                 <div class="feature-item">
-                    <div class="circle">防犯に<br>つながる習慣</div>
+                    <div class="circle">
+                        <span class="circle-title">防犯に<br>つながる習慣</span>
+                        <p class="detail-text">
+                            声に出すことで、在宅をアピール。<br>
+                            日々の防犯意識も高まります。
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -131,6 +148,23 @@
             <p>&copy; 2026 18班 (Group 18) All Rights Reserved.</p>
         </div>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate');
+                    }
+                });
+            });
+
+            const pieChart = document.querySelector('.pie-chart');
+            if (pieChart) {
+                observer.observe(pieChart);
+            }
+        });
+    </script>
 
 </body>
 </html>

@@ -318,19 +318,44 @@ h2 {
     /* 薄いオレンジ */
     border-radius: 50%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     font-weight: bold;
     font-size: 1.2rem;
     color: var(--text-color);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-    transition: transform 0.3s;
+    transition: all 0.4s ease;
+    padding: 20px;
+}
+
+.circle-title {
+    display: block;
+    line-height: 1.4;
+}
+
+.detail-text {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    font-size: 0.85rem;
+    font-weight: normal;
+    margin-top: 0;
+    transition: all 0.4s ease;
 }
 
 .circle:hover {
-    transform: scale(1.05);
+    width: 260px;
+    height: 260px;
     background-color: var(--accent-color);
     color: var(--white);
+    transform: translateY(-10px);
+}
+
+.circle:hover .detail-text {
+    max-height: 100px;
+    opacity: 1;
+    margin-top: 15px;
 }
 
 /* リサーチ（グラフ） */
@@ -350,13 +375,34 @@ h2 {
 .pie-chart {
     width: 200px;
     height: 200px;
-    background: conic-gradient(var(--accent-color) 0% 81%, #eee 81% 100%);
+    background: conic-gradient(var(--accent-color) 0% var(--percentage), #eee var(--percentage) 100%);
     border-radius: 50%;
     margin: 0 auto 20px;
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
+    /* animation: pieChartFill 5s ease-out forwards; */
+}
+
+.pie-chart.animate {
+    animation: pieChartFill 1.5s ease-out forwards;
+}
+
+@property --percentage {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 0%;
+}
+
+@keyframes pieChartFill {
+    from {
+        --percentage: 0%;
+    }
+
+    to {
+        --percentage: 81%;
+    }
 }
 
 .percentage {
