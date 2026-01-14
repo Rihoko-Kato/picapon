@@ -692,8 +692,8 @@ footer {
     }
 
     .logo {
-        width: 150px;
-        height: 60px;
+        width: 120px; /* 少し小さく */
+        height: 50px;
     }
 
     nav {
@@ -734,9 +734,16 @@ footer {
         margin-right: 0; /* 右寄せ解除 */
     }
 
+    .hero-logo {
+        height: 80px; /* ヒーローのロゴも少し小さく */
+        width: auto;
+    }
+
     .hero h1 {
-        font-size: 1.8rem;
-        line-height: 1.5;
+        font-size: 1.4rem; /* 文字サイズを小さくして改行崩れを防ぐ */
+        line-height: 1.6;
+        word-break: keep-all; /* 単語の途中で改行されないように */
+        overflow-wrap: break-word;
     }
 
     .sub-text {
