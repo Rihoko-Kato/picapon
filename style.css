@@ -208,7 +208,7 @@ h2 {
 }
 
 .concept-text .lead-text {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 700;
     line-height: 2;
     margin-bottom: 30px;
@@ -448,6 +448,20 @@ h2 {
     font-size: 0.8rem;
     color: #888;
     margin-top: 15px;
+}
+
+/* 使用イメージ */
+.usage-image-container {
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.usage-img {
+    max-width: 800px;
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
 
 /* フッター */
