@@ -669,6 +669,22 @@ footer {
 
 /* レスポンシブ対応（スマホ向け） */
 @media (max-width: 768px) {
+    /* ------------------------
+       全体レイアウト
+       ------------------------ */
+    section {
+        padding: 60px 0;
+    }
+
+    h2 {
+        font-size: 1.6rem;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    /* ------------------------
+       ヘッダー
+       ------------------------ */
     header {
         padding: 15px 20px;
         flex-direction: column;
@@ -697,60 +713,118 @@ footer {
         white-space: nowrap;
     }
 
-    .hero h1 {
-        font-size: 1.8rem;
+    /* ------------------------
+       Hero セクション
+       ------------------------ */
+    .hero {
+        /* 高さを自然に、コンテンツに合わせて */
+        height: auto;
+        min-height: 100vh;
+        /* カラムレイアウトで縦並びにしつつ、背景画像は絶対配置のまま維持 */
+        flex-direction: column;
+        justify-content: center; /* 上下中央 */
+        align-items: center;     /* 左右中央 */
+        text-align: center;      /* 文字中央揃え */
+        padding: 100px 20px;
     }
 
+    .hero-content {
+        /* PC版の50%制限を解除して広く使う */
+        max-width: 100%;
+        margin-right: 0; /* 右寄せ解除 */
+    }
+
+    .hero h1 {
+        font-size: 1.8rem;
+        line-height: 1.5;
+    }
+
+    .sub-text {
+        font-size: 0.9rem;
+    }
+
+    /* 背景画像調整 */
+    .hero-img {
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        opacity: 0.8; /* 文字を読みやすくするために少し暗くする等の調整が必要ならここ */
+    }
+
+    /* ------------------------
+       Feature (3つの丸)
+       ------------------------ */
     .feature-grid {
         flex-direction: column;
         align-items: center;
     }
 
-    /* 以下、スマホ専用のレイアウト修正（PCには影響しません） */
-
-    /* 1. コンセプト：画像を上に、文字を下に */
+    /* ------------------------
+       Concept セクション
+       ------------------------ */
     .concept-layout {
-        flex-direction: column-reverse;
+        /* 画像と文字を完全に縦並びブロックにする */
+        display: block; 
         text-align: center;
-        gap: 40px;
     }
 
     .concept-image {
         width: 100%;
-        height: 300px;
+        height: auto; /* 高さは自動 */
+        margin: 30px 0 0 0; /* 文字の下に間隔を空けて配置 */
+        
+        /* 画像たちを中央揃えに */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: static; /* 親の相対配置を解除 */
     }
 
+    .concept-text {
+        width: 100%;
+    }
+
+    /* 画像の絶対配置を解除して、普通の画像として表示 */
     .img-origin {
-        right: 10%;
-        width: 120px;
+        position: static; /* 隕石 */
+        width: 150px;
+        margin-bottom: 20px;
+        transform: none;
+        filter: none; /* ぼかし解除 */
+        opacity: 1;
     }
 
     .img-flying {
-        left: 50%;
-        transform: translateX(-50%) rotate(-10deg);
-        width: 200px;
+        position: static; /* ぴかぽん */
+        width: 220px;
+        transform: none;
+        animation: none; /* 動きも止めてシンプルに */
     }
 
-    /* 2. つかいかた：画像を上に、文字を下に（重ならないようにする） */
+    /* ------------------------
+       Use (つかいかた)
+       ------------------------ */
     .howtouse-content {
         display: flex;
         flex-direction: column;
-        min-height: auto;
         padding-top: 0;
     }
 
     .usage-image-container {
-        position: relative; /* 絶対配置をやめる */
+        position: relative;
         width: 100%;
-        height: 400px; /* 全身が見えるように高さを確保 */
-        order: -1; /* 画像を一番上に持ってくる */
+        height: 400px;
+        order: -1; 
         margin-bottom: 30px;
-        mask-image: none; /* マスク（ぼかし）を解除 */
+        mask-image: none;
         -webkit-mask-image: none;
     }
 
     .usage-img {
-        object-fit: contain; /* ユーザーがトリミングした画像をそのまま表示 */
+        /* ユーザー提供画像をそのまま全体表示 */
+        object-fit: contain; 
         object-position: center;
     }
 
@@ -761,12 +835,15 @@ footer {
     .interaction-demo {
         flex-direction: column;
     }
-
+    
     .demo-box {
         max-width: 100%;
+        width: 100%;
     }
 
-    /* 3. よくある質問：縦並びにする */
+    /* ------------------------
+       FAQ
+       ------------------------ */
     .faq-item {
         flex-direction: column;
     }
