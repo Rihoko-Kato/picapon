@@ -31,7 +31,7 @@ h3 {
 
 /* コンテナ（共通の幅設定） */
 .container {
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
     text-align: center;
@@ -115,13 +115,21 @@ nav a:hover {
     /* 文字が左に行き過ぎないように */
 }
 
+.sub-text {
+    margin-top: 40px;
+    /* テキストを少し下に下げる */
+    margin-bottom: 0;
+    font-size: 1.0rem;
+}
+
 .hero-logo {
-    height: 40px;
+    height: 140px;
     width: auto;
     vertical-align: middle;
     margin-top: 10px;
+    /* ロゴとテキストの距離を近づける */
     /* 白くするフィルター */
-    filter: brightness(0) invert(1) drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+    filter: brightness(0) invert(1) drop-shadow(0 4px 8px rgba(0,0,0,0.5));
 }
 
 .hero h1 {
@@ -182,6 +190,117 @@ h2 {
     font-size: 2rem;
     margin-bottom: 40px;
     color: var(--accent-color);
+}
+
+/* コンセプト */
+.concept-layout {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 100px;
+    text-align: left;
+    position: relative;
+}
+
+.concept-text {
+    flex: 1;
+    z-index: 2;
+}
+
+.concept-text .lead-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 2;
+    margin-bottom: 30px;
+    color: var(--text-color);
+    background: linear-gradient(transparent 70%, #ffecb3 70%);
+    /* 蛍光ペンのような下線 */
+    display: inline;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+}
+
+.concept-image {
+    flex: 1;
+    position: relative;
+    height: 400px;
+    /* 高さを確保 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 背景の丸削除 */
+.concept-image::before {
+    display: none;
+}
+
+.img-origin {
+    position: absolute;
+    top: 50px;
+    right: -80px;
+    /* さらに右へ */
+    width: 300px;
+    /* 少し大きく */
+    height: auto;
+    opacity: 0.9;
+    filter: blur(0.5px);
+    /* ぼかしも弱くして存在感を出す */
+    z-index: 1;
+}
+
+.img-flying {
+    position: absolute;
+    bottom: 0;
+    left: 5%;
+    /* もっと左へ */
+    transform: rotate(-10deg);
+    /* 中央寄せ(translateX)を削除して左基準に */
+    width: 280px;
+    height: auto;
+    z-index: 2;
+    filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.2));
+    animation: flyingFloat 3s ease-in-out infinite alternate;
+}
+
+@keyframes flyingFloat {
+    0% {
+        transform: rotate(-10deg) translateY(0);
+    }
+
+    100% {
+        transform: rotate(-5deg) translateY(-15px);
+    }
+}
+
+@media (max-width: 768px) {
+    .concept-layout {
+        flex-direction: column-reverse;
+        /* スマホなら画像が上に来るようにしてもいいかも？今回はそのまま */
+        text-align: center;
+        gap: 40px;
+    }
+
+    .concept-text .lead-text {
+        font-size: 1.2rem;
+    }
+
+    .concept-image {
+        height: 300px;
+        width: 100%;
+    }
+
+    .img-origin {
+        width: 100px;
+        right: 10%;
+    }
+
+    .img-flying {
+        width: 200px;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 10px;
+    }
 }
 
 /* 機能（3つの丸） */
