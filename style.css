@@ -115,10 +115,20 @@ nav a:hover {
     /* 文字が左に行き過ぎないように */
 }
 
+.hero-logo {
+    height: 40px;
+    width: auto;
+    vertical-align: middle;
+    margin-top: 10px;
+    /* 白くするフィルター */
+    filter: brightness(0) invert(1) drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+}
+
 .hero h1 {
     font-size: 2.5rem;
     margin-bottom: 20px;
-    line-height: 3.0;
+    line-height: 2.0;
+    font-weight: 500;
 }
 
 .hero-image-placeholder {
