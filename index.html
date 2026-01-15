@@ -158,11 +158,47 @@
             <h2>ぴかぽんの様子</h2>
             <div class="smartphone-frame-wrapper">
                 <div class="smartphone-frame-landscape">
-                    <div class="screen">
-                        <video controls playsinline>
+                    <div class="screen camera-interface">
+                        <!-- ビューファインダーとしての動画 -->
+                        <video autoplay muted loop playsinline class="viewfinder">
                             <source src="movie/picaponmovie.mp4" type="video/mp4">
-                            お使いのブラウザはvideo要素をサポートしていません。
                         </video>
+                        
+                        <!-- カメラアプリのUI -->
+                        <div class="camera-overlay">
+                            <div class="camera-controls-left">
+                                <span class="cam-icon flash-icon">⚡</span>
+                                <span class="cam-icon live-icon">◎</span>
+                            </div>
+                            
+                            <div class="camera-grid-lines">
+                                <div class="grid-line-h"></div>
+                                <div class="grid-line-h"></div>
+                                <div class="grid-line-v"></div>
+                                <div class="grid-line-v"></div>
+                                <div class="focus-area">+</div>
+                            </div>
+
+                            <div class="camera-controls-right">
+                                <div class="camera-modes">
+                                    <span>シネマティック</span>
+                                    <span>ビデオ</span>
+                                    <span class="active">写真</span>
+                                    <span>ポートレート</span>
+                                    <span>パノラマ</span>
+                                </div>
+                                <div class="shutter-area">
+                                    <div class="gallery-preview"></div>
+                                    <button class="shutter-btn"></button>
+                                    <div class="flip-camera">
+                                        <svg viewBox="0 0 24 24" width="24" height="24" stroke="white" stroke-width="2" fill="none">
+                                            <path d="M4 12a8 8 0 0116 0M4 12h2a6 6 0 0012 0" />
+                                            <path d="M20 12l2-2m-2 2l2 2" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <!-- 左手親指 -->
                     <div class="hand-thumb-simple"></div>
