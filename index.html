@@ -67,6 +67,7 @@
                     <div id="game-win-overlay" class="game-win-overlay">
                         <div class="win-title">🎉 CLEAR! 🎉</div>
                         <button id="restart-game-btn" class="game-start-btn">もう一回！</button>
+                        <button id="stop-game-btn" class="game-start-btn" style="margin-top: 10px; font-size: 0.9rem; background: #999; border-color: #eee; box-shadow: none;">もうかわいそうだからやめる</button>
                     </div>
                 </div>
             </div>
@@ -575,6 +576,7 @@
 
             // --- ミニゲームロジック ---
             const restartBtn = document.getElementById('restart-game-btn');
+            const stopGameBtn = document.getElementById('stop-game-btn');
             const scoreDisplay = document.getElementById('game-score');
             const winOverlay = document.getElementById('game-win-overlay');
             const conceptContainer = document.querySelector('.concept-image');
@@ -588,6 +590,31 @@
             if (conceptContainer && imgFlying) {
                 // 初期設定：画像をクリック可能に
                 imgFlying.style.cursor = 'pointer';
+
+                // ゲームリセット（停止）関数
+                const stopGame = () => {
+                    isGameRunning = false;
+                    clearInterval(gameInterval);
+                    scoreDisplay.style.display = 'none';
+                    winOverlay.classList.remove('active');
+
+                    // 音楽とレコード停止
+                    if (winAudio) {
+                        winAudio.pause();
+                        winAudio.currentTime = 0;
+                        const vinylRecord = document.getElementById('vinyl-record');
+                        const toneArm = document.getElementById('tone-arm');
+                        const clickHint = document.querySelector('.click-hint');
+                        
+                        if (vinylRecord) vinylRecord.classList.remove('playing');
+                        if (toneArm) toneArm.classList.remove('playing');
+                        if (clickHint) clickHint.textContent = 'Click to Play';
+                    }
+
+                    // ぴかぽんがもし消えてたら復活（通常はCLEAR直後に復活しているが念のため）
+                    imgFlying.classList.remove('bursting');
+                    imgFlying.classList.add('respawn');
+                };
 
                 // ゲーム開始処理
                 const startGame = () => {
@@ -638,6 +665,10 @@
 
                 if (restartBtn) {
                     restartBtn.addEventListener('click', startGame);
+                }
+                
+                if (stopGameBtn) {
+                    stopGameBtn.addEventListener('click', stopGame);
                 }
 
                 // ターゲット生成
