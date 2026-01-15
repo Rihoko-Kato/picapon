@@ -63,9 +63,6 @@
                     <img src="images/insekipon1.png" alt="ぴかぽん" class="img-flying">
                     
                     <!-- ミニゲーム用UI -->
-                    <div class="game-start-container">
-                        <button id="start-minigame-btn" class="game-start-btn">ミニゲームで遊ぶ！</button>
-                    </div>
                     <div id="game-score" class="game-score">0 / 10</div>
                     <div id="game-win-overlay" class="game-win-overlay">
                         <div class="win-title">🎉 CLEAR! 🎉</div>
@@ -549,42 +546,6 @@
                 video.addEventListener('pause', updateButtonState);
             }
 
-            // ぴかぽんクリック時の弾ける演出
-            const imgFlying = document.querySelector('.img-flying');
-            if (imgFlying) {
-                // クリックできることを示すカーソル
-                imgFlying.style.cursor = 'pointer';
-
-                imgFlying.addEventListener('click', (e) => {
-                    // 既に破裂中なら無視
-                    if (imgFlying.classList.contains('bursting')) return;
-
-                    // 弾けるアニメーション開始
-                    imgFlying.classList.add('bursting');
-                    imgFlying.classList.remove('respawn');
-
-                    // 親要素（配置基準）
-                    const container = imgFlying.parentElement;
-                    // 親要素に position: relative が必要（CSSで設定済みだが念のため確認）
-                    
-                    const rect = imgFlying.getBoundingClientRect();
-                    const containerRect = container.getBoundingClientRect();
-                    
-                    // img-flyingの中心座標（コンテナ相対）を計算
-                    const centerX = rect.left + rect.width / 2 - containerRect.left;
-                    const centerY = rect.top + rect.height / 2 - containerRect.top;
-
-                    // パーティクル生成ロジックの共通化
-                    createBurstParticles(container, centerX, centerY);
-
-                    // 数秒後に復活させる
-                    setTimeout(() => {
-                        imgFlying.classList.remove('bursting');
-                        imgFlying.classList.add('respawn');
-                    }, 2000); // 2秒後に復活
-                });
-            }
-
             // --- パーティクル生成関数 ---
             function createBurstParticles(container, centerX, centerY) {
                 const particleCount = 20; 
@@ -613,21 +574,21 @@
             }
 
             // --- ミニゲームロジック ---
-            const startBtn = document.getElementById('start-minigame-btn');
             const restartBtn = document.getElementById('restart-game-btn');
             const scoreDisplay = document.getElementById('game-score');
             const winOverlay = document.getElementById('game-win-overlay');
             const conceptContainer = document.querySelector('.concept-image');
+            const imgFlying = document.querySelector('.img-flying');
             
             let gameScore = 0;
             let gameInterval = null;
             let isGameRunning = false;
-            // 勝利時の音楽用（既存のaudio要素があればそれを使う、なければ作る）
-            // 既存の#picapon-audioを使うとレコードUIと競合するので、効果音的に扱うのがベターだが、
-            // ここでは簡易的に既存のものを使いつつ、UIに影響しないようにする
             const winAudio = document.getElementById('picapon-audio'); 
 
-            if (startBtn && conceptContainer) {
+            if (conceptContainer && imgFlying) {
+                // 初期設定：画像をクリック可能に
+                imgFlying.style.cursor = 'pointer';
+
                 // ゲーム開始処理
                 const startGame = () => {
                     if (isGameRunning) return;
@@ -635,41 +596,71 @@
                     gameScore = 0;
                     scoreDisplay.textContent = `${gameScore} / 10`;
                     scoreDisplay.style.display = 'block';
-                    startBtn.parentElement.style.display = 'none'; // スタートボタン隠す
                     winOverlay.classList.remove('active');
+
+                    // 音楽とレコードのアニメーションを停止
+                    if (winAudio) {
+                        winAudio.pause();
+                        winAudio.currentTime = 0;
+                        const vinylRecord = document.getElementById('vinyl-record');
+                        const toneArm = document.getElementById('tone-arm');
+                        const clickHint = document.querySelector('.click-hint');
+                        
+                        if (vinylRecord) vinylRecord.classList.remove('playing');
+                        if (toneArm) toneArm.classList.remove('playing');
+                        if (clickHint) clickHint.textContent = 'Click to Play';
+                    }
 
                     // 1秒ごとにターゲット生成
                     gameInterval = setInterval(spawnTarget, 800);
                 };
 
-                startBtn.addEventListener('click', startGame);
-                restartBtn.addEventListener('click', startGame);
+                // Big Pika Click Event (Start Game)
+                imgFlying.addEventListener('click', (e) => {
+                    if (isGameRunning || imgFlying.classList.contains('bursting')) return;
+
+                    // エフェクト演出
+                    imgFlying.classList.add('bursting');
+                    imgFlying.classList.remove('respawn'); // 復活アニメーションを消す
+                    
+                    const rect = imgFlying.getBoundingClientRect();
+                    const containerRect = conceptContainer.getBoundingClientRect();
+                    const centerX = rect.left + rect.width / 2 - containerRect.left;
+                    const centerY = rect.top + rect.height / 2 - containerRect.top;
+                    createBurstParticles(conceptContainer, centerX, centerY);
+
+                    // ここでは復活タイマーをセットせず、ゲームを開始する
+                    // ゲーム中は非表示のまま (CSSの bursting 状態で scale(0) opacity:0 になって消える)
+                    
+                    // 少し遅れてゲーム開始（エフェクトが見えてから）
+                    setTimeout(startGame, 300);
+                });
+
+                if (restartBtn) {
+                    restartBtn.addEventListener('click', startGame);
+                }
 
                 // ターゲット生成
                 function spawnTarget() {
-                    if (gameScore >= 10) return; // すでにクリア条件満たしてたら作らない
+                    if (gameScore >= 10) return; 
 
                     const target = document.createElement('img');
                     target.src = 'images/insekipon1.png';
                     target.classList.add('falling-target');
                     
-                    // 位置ランダム (コンテナ幅内)
                     const containerWidth = conceptContainer.clientWidth;
-                    const randomX = Math.random() * (containerWidth - 60); // 60はターゲット幅
+                    const randomX = Math.random() * (containerWidth - 60); 
                     target.style.left = `${randomX}px`;
-                    target.style.top = '-80px'; // 上から
+                    target.style.top = '-80px'; 
 
-                    // アニメーション (2秒〜4秒かけて落ちる)
                     const duration = 2 + Math.random() * 2;
                     target.style.animation = `targetFallGame ${duration}s linear forwards`;
 
-                    // クリックイベント
-                    target.addEventListener('mousedown', (e) => { // スマホ対応でtouchも入れるべきだが簡易化
-                        e.stopPropagation(); // 親への伝播防止
+                    target.addEventListener('mousedown', (e) => { 
+                        e.stopPropagation();
                         hitTarget(target);
                     });
                     
-                    // アニメーション終わったら消す（逃した）
                     target.addEventListener('animationend', () => {
                         target.remove();
                     });
@@ -681,23 +672,17 @@
                 function hitTarget(target) {
                     if (!isGameRunning) return;
                     
-                    // 座標取得
                     const rect = target.getBoundingClientRect();
                     const containerRect = conceptContainer.getBoundingClientRect();
                     const centerX = rect.left + rect.width/2 - containerRect.left;
                     const centerY = rect.top + rect.height/2 - containerRect.top;
 
-                    // エフェクト
                     createBurstParticles(conceptContainer, centerX, centerY);
-                    
-                    // 要素削除
                     target.remove();
                     
-                    // スコア加算
                     gameScore++;
                     scoreDisplay.textContent = `${gameScore} / 10`;
 
-                    // 勝利判定
                     if (gameScore >= 10) {
                         gameWin();
                     }
@@ -708,10 +693,8 @@
                     isGameRunning = false;
                     clearInterval(gameInterval);
                     
-                    // 残りのターゲットを消す
                     const targets = document.querySelectorAll('.falling-target');
                     targets.forEach(t => {
-                        // 一応全部バーストさせる演出
                         const rect = t.getBoundingClientRect();
                         const containerRect = conceptContainer.getBoundingClientRect();
                         createBurstParticles(conceptContainer, 
@@ -721,14 +704,18 @@
                         t.remove();
                     });
 
-                    // 祝う
                     winOverlay.classList.add('active');
                     
-                    // 音楽再生（もしあれば）
+                    // ゲーム終了後に元の巨大ぴかぽんを復活させる
+                    setTimeout(() => {
+                        imgFlying.classList.remove('bursting');
+                        imgFlying.classList.add('respawn');
+                    }, 500);
+
+                    // 音楽再生
                     if (winAudio) {
                         winAudio.currentTime = 0;
                         winAudio.play().catch(e => console.log(e));
-                        // レコードプレーヤーの方も回しておく演出を入れると連携が取れる
                         const vinylRecord = document.getElementById('vinyl-record');
                         const toneArm = document.getElementById('tone-arm');
                         if (vinylRecord) vinylRecord.classList.add('playing');
