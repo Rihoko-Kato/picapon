@@ -157,35 +157,37 @@
         <div class="container">
             <h2>ぴかぽんの様子</h2>
             <div class="smartphone-frame-wrapper">
-                <div class="smartphone-frame-landscape">
-                    <div class="screen camera-interface">
-                        <!-- ビューファインダーとしての動画 -->
-                        <video autoplay muted loop playsinline class="viewfinder">
-                            <source src="movie/picaponmovie.mp4" type="video/mp4">
-                        </video>
-                        
-                        <!-- カメラアプリのUI -->
-                        <div class="camera-overlay">
-                            <div class="camera-controls-left">
-                                <span class="cam-icon flash-icon">⚡</span>
-                                <span class="cam-icon live-icon">◎</span>
-                            </div>
+                <div style="position: relative;">
+                    <div class="smartphone-frame-landscape">
+                        <div class="screen camera-interface">
+                            <!-- ビューファインダーとしての動画 -->
+                            <video autoplay muted loop playsinline class="viewfinder">
+                                <source src="movie/picaponmovie.mp4" type="video/mp4">
+                            </video>
                             
-                            <div class="camera-grid-lines">
-                                <div class="grid-line-h"></div>
-                                <div class="grid-line-h"></div>
-                                <div class="grid-line-v"></div>
-                                <div class="grid-line-v"></div>
-                                <div class="focus-area">+</div>
-                            </div>
+                            <!-- カメラアプリのUI -->
+                            <div class="camera-overlay">
+                                <div class="camera-controls-left">
+                                    <span class="cam-icon flash-icon">⚡</span>
+                                    <span class="cam-icon live-icon">◎</span>
+                                </div>
+                                
+                                <div class="camera-grid-lines">
+                                    <div class="grid-line-h"></div>
+                                    <div class="grid-line-h"></div>
+                                    <div class="grid-line-v"></div>
+                                    <div class="grid-line-v"></div>
+                                    <div class="focus-area">+</div>
+                                </div>
 
-                            <div class="camera-controls-right">
-                                <!-- シンプルに録画ボタンのみ配置 -->
-                                <button class="record-btn"></button>
+                                <div class="camera-controls-right">
+                                    <!-- シンプルに録画ボタンのみ配置 -->
+                                    <button class="record-btn"></button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <!-- 左手親指 -->
+                    <!-- 左手親指（フレームの外に出しました） -->
                     <div class="hand-thumb-simple"></div>
                 </div>
             </div>
