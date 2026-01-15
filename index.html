@@ -241,6 +241,55 @@
                         お使いのブラウザはaudio要素をサポートしていません。
                     </audio>
                 </div>
+                <button id="toggle-lyrics-btn" class="toggle-lyrics-btn">歌詞を表示 ▼</button>
+                <div id="lyrics-container" class="lyrics-container">
+                    <div class="lyrics-text">
+                        <p>
+                            ねえ　おきて<br>
+                            そっと　ゆびさきで　トントン<br>
+                            ピカ…オン？<br>
+                            きょうも　まもるよ　ドアのまえ
+                        </p>
+                        <p>
+                            ちいさな　まるい　からだで<br>
+                            きょうの　きぶん　つたえたい<br>
+                            くつばこ　かどで　まってる<br>
+                            「まだかな？」って　こころ　そわそわ
+                        </p>
+                        <p>
+                            ぴかぽん　ぴかぽん　ただいまソング<br>
+                            しっぽみたいに　からだが　ぴょん<br>
+                            「いってきます」に　ぽんって　おへんじ<br>
+                            ドアがあくたび　きみとスタート<br>
+                            ぴかぽん　ぴかぽん　おかえりダンス<br>
+                            ちいさなこえで　おつかれさま<br>
+                            あいさつひとつで　あたたかくなる<br>
+                            げんかんが　きみの　まほうのばしょ
+                        </p>
+                        <p>
+                            あさのひかりを　あびながら<br>
+                            ねぼけまなこを　みまもってる<br>
+                            イッテラッシャイ<br>
+                            ちいさくはねて　みおくるよ
+                        </p>
+                        <p>
+                            よるのにおいを　つれてきて<br>
+                            かぎのひびきが　きこえたら<br>
+                            オカエリナサイ<br>
+                            うれしくなって　またはねる
+                        </p>
+                        <p>
+                            ぴかぽん　ぴかぽん　ただいまソング<br>
+                            しっぽみたいに　からだが　ぴょん<br>
+                            「いってきます」に　ぽよんって　おへんじ<br>
+                            ドアがあくたび　きみとスタート<br>
+                            ぴかぽん　ぴかぽん　おかえりダンス<br>
+                            ちいさなこえで　おつかれさま<br>
+                            あいさつひとつで　あたたかくなる<br>
+                            げんかんが　きみの　まほうのばしょ
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -334,6 +383,26 @@
                     this.classList.toggle('active');
                 });
             });
+
+            // 歌詞の開閉
+            const lyricsBtn = document.getElementById('toggle-lyrics-btn');
+            const lyricsContainer = document.getElementById('lyrics-container');
+
+            if (lyricsBtn && lyricsContainer) {
+                lyricsBtn.addEventListener('click', () => {
+                    const isOpen = lyricsContainer.classList.contains('active');
+                    if (isOpen) {
+                        lyricsContainer.classList.remove('active');
+                        // スタイルでdisplay:noneにしているのでクラス操作だけで消えるはずだが、
+                        // もしCSSの詳細度などで消えない場合は手動設定が必要
+                        // ここではCSSの .lyrics-container { display: none; } と .active { display: block; } に依存
+                        lyricsBtn.textContent = '歌詞を表示 ▼';
+                    } else {
+                        lyricsContainer.classList.add('active');
+                        lyricsBtn.textContent = '歌詞を閉じる ▲';
+                    }
+                });
+            }
         });
     </script>
 
