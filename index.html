@@ -538,6 +538,77 @@
                 video.addEventListener('play', updateButtonState);
                 video.addEventListener('pause', updateButtonState);
             }
+
+            // ぴかぽんクリック時の弾ける演出
+            const imgFlying = document.querySelector('.img-flying');
+            if (imgFlying) {
+                // クリックできることを示すカーソル
+                imgFlying.style.cursor = 'pointer';
+
+                imgFlying.addEventListener('click', (e) => {
+                    // 既に破裂中なら無視
+                    if (imgFlying.classList.contains('bursting')) return;
+
+                    // 弾けるアニメーション開始
+                    imgFlying.classList.add('bursting');
+                    imgFlying.classList.remove('respawn');
+
+                    // 親要素（配置基準）
+                    const container = imgFlying.parentElement;
+                    // 親要素に position: relative が必要（CSSで設定済みだが念のため確認）
+                    
+                    const rect = imgFlying.getBoundingClientRect();
+                    const containerRect = container.getBoundingClientRect();
+                    
+                    // img-flyingの中心座標（コンテナ相対）を計算
+                    const centerX = rect.left + rect.width / 2 - containerRect.left;
+                    const centerY = rect.top + rect.height / 2 - containerRect.top;
+
+                    // パーティクル生成
+                    const particleCount = 20; // パーティクルの数
+                    // サイトのテーマカラーに合わせた色（黄色、オレンジ、白）
+                    const colors = ['#f9d423', '#ff4e50', '#ffffff', '#F8E6C8']; 
+
+                    for (let i = 0; i < particleCount; i++) {
+                        const p = document.createElement('div');
+                        p.classList.add('pika-particle');
+                        
+                        // 位置設定（中心から）
+                        p.style.left = `${centerX}px`;
+                        p.style.top = `${centerY}px`;
+                        
+                        // ランダムな色
+                        p.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                        
+                        // ランダムな飛び散り方向（距離と角度）
+                        const angle = Math.random() * 360 * (Math.PI / 180);
+                        const velocity = 50 + Math.random() * 150; // 50px〜200px飛ぶ
+                        const tx = Math.cos(angle) * velocity;
+                        const ty = Math.sin(angle) * velocity;
+                        
+                        // CSS変数に渡してアニメーションで使う
+                        p.style.setProperty('--tx', `${tx}px`);
+                        p.style.setProperty('--ty', `${ty}px`);
+                        
+                        // アニメーション時間（バラツキを持たせる）
+                        const duration = 0.5 + Math.random() * 0.5; // 0.5s〜1.0s
+                        p.style.animation = `particleMove ${duration}s ease-out forwards`;
+
+                        container.appendChild(p);
+
+                        // アニメーション終了後に削除
+                        setTimeout(() => {
+                            p.remove();
+                        }, duration * 1000);
+                    }
+
+                    // 数秒後に復活させる
+                    setTimeout(() => {
+                        imgFlying.classList.remove('bursting');
+                        imgFlying.classList.add('respawn');
+                    }, 2000); // 2秒後に復活
+                });
+            }
         });
     </script>
 
